@@ -32,6 +32,7 @@ namespace CwkBooking3.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CwkBooking3.API", Version = "v1" });
             });
+            services.AddSingleton<DataSource>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
