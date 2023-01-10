@@ -1,3 +1,4 @@
+using CwkBooking3.API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -33,6 +34,7 @@ namespace CwkBooking3.API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CwkBooking3.API", Version = "v1" });
             });
             services.AddSingleton<DataSource>();
+            services.AddSingleton<MyFirstService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

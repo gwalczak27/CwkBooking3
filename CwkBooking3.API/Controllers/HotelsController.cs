@@ -1,4 +1,5 @@
-﻿using CwkBooking3.Domain.Models;
+﻿using CwkBooking3.API.Services;
+using CwkBooking3.Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -10,16 +11,16 @@ namespace CwkBooking3.API.Controllers
     [ApiController]
     public class HotelsController : ControllerBase
     {
-        private readonly DataSource _dataSource;
-        public HotelsController(DataSource dataSource)
+        private readonly MyFirstService _myFirstService;
+        public HotelsController(MyFirstService myFirstService)
         {
-            _dataSource = dataSource;
+            _myFirstService = myFirstService;
         }
 
         [HttpGet]
         public IActionResult GetAllHotels()
         {
-            var hotels = _dataSource.Hotels;
+            var hotels = _myFirstService.GetHotels();
             return Ok(hotels);
         }
 
@@ -28,7 +29,7 @@ namespace CwkBooking3.API.Controllers
         [HttpGet]
         public IActionResult GetHotelById(int id)
         {
-            var hotels = _dataSource.Hotels;
+            var hotels = _myFirstService.GetHotels();
             var hotel = hotels.FirstOrDefault(h => h.Id == id);
 
             if (hotel == null)
@@ -40,7 +41,7 @@ namespace CwkBooking3.API.Controllers
         [HttpPost]
         public IActionResult CreateHotel([FromBody] Hotel hotel)
         {
-            var hotels = _dataSource.Hotels;
+            var hotels = _myFirstService.GetHotels();
             hotels.Add(hotel);
             return CreatedAtAction(nameof(GetHotelById), new { id = hotel.Id }, hotel);
         }
@@ -49,7 +50,7 @@ namespace CwkBooking3.API.Controllers
         [Route("{id}")]
         public IActionResult UpdateHotel([FromBody] Hotel updated, int id)
         {
-            var hotels = _dataSource.Hotels;
+            var hotels = _myFirstService.GetHotels();
             var old = hotels.FirstOrDefault(h => h.Id == id);
 
             if (old == null)
@@ -64,7 +65,7 @@ namespace CwkBooking3.API.Controllers
         [Route("{id}")]
         public IActionResult DeleteHotel(int id)
         {
-            var hotels = _dataSource.Hotels;
+            var hotels = _myFirstService.GetHotels();
             var toDelete = hotels.FirstOrDefault(h => h.Id == id);
 
             if (toDelete == null)
