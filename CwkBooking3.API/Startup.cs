@@ -1,4 +1,4 @@
-using CwkBooking3.API.Services;
+using CwkBooking3.API.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -34,7 +34,7 @@ namespace CwkBooking3.API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CwkBooking3.API", Version = "v1" });
             });
             services.AddSingleton<DataSource>();
-            services.AddSingleton<MyFirstService>();
+            services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +52,8 @@ namespace CwkBooking3.API
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseDateTimeHeader();
 
             app.UseEndpoints(endpoints =>
             {

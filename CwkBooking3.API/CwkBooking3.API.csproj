@@ -12,4 +12,8 @@
     <ProjectReference Include="..\CwkBooking3.Domain\CwkBooking3.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>
