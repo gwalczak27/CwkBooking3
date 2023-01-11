@@ -54,6 +54,7 @@ namespace CwkBooking3.API
             app.UseAuthorization();
 
             app.UseDateTimeHeader();
+            app.UseSecondMiddleware();
 
             app.UseEndpoints(endpoints =>
             {

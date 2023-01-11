@@ -22,8 +22,10 @@ namespace CwkBooking3.API.Controllers
         [HttpGet]
         public IActionResult GetAllHotels()
         {
-            _context.Request.Headers.TryGetValue("my-custom-middleware", out var headerDate);
-            return Ok(headerDate);
+            _context.Request.Headers.TryGetValue("my-custom-middleware", out var headerDate1);
+            _context.Request.Headers.TryGetValue("second-middleware", out var headerDate2);
+
+            return Ok(headerDate1 + headerDate2);
         }
 
 
