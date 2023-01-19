@@ -10,7 +10,7 @@ namespace CwkBooking3.DAL
 {
     public class CwkBooking3Context : DbContext
     {
-        public CwkBooking3Context()
+        public CwkBooking3Context(DbContextOptions options) : base(options)
         {
 
         }
