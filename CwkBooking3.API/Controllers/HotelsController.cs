@@ -1,4 +1,6 @@
-﻿using CwkBooking3.DAL;
+﻿using AutoMapper;
+using CwkBooking3.API.DTOs;
+using CwkBooking3.DAL;
 using CwkBooking3.Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,11 +20,13 @@ namespace CwkBooking3.API.Controllers
         private readonly ILogger<HotelsController> _ilogger;
         private readonly HttpContext _context;
         private readonly CwkBooking3Context _dbContext;
-        public HotelsController(ILogger<HotelsController> ilogger, IHttpContextAccessor httpContextAccessor, CwkBooking3Context dbContext)
+        private readonly IMapper _mapper;
+        public HotelsController(ILogger<HotelsController> ilogger, IHttpContextAccessor httpContextAccessor, CwkBooking3Context dbContext, IMapper mapper)
         {
             _ilogger = ilogger;
             _context = httpContextAccessor.HttpContext;
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -33,7 +37,8 @@ namespace CwkBooking3.API.Controllers
 
             //return Ok(headerDate1 + headerDate2);
             var hotels = await _dbContext.Hotels.ToListAsync();
-            return Ok(hotels);
+            var hotelsGet = _mapper.Map<List<GetHotelDTO>>(hotels);
+            return Ok(hotelsGet);
         }
 
 
@@ -42,33 +47,30 @@ namespace CwkBooking3.API.Controllers
         public async Task<IActionResult> GetHotelById(int id)
         {
             var hotel = await _dbContext.Hotels.FirstOrDefaultAsync(h => h.Id == id);
-            return Ok(hotel);
+            var hotelGet = _mapper.Map<GetHotelDTO>(hotel);
+            return Ok(hotelGet);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateHotel([FromBody] Hotel hotel)
+        public async Task<IActionResult> CreateHotel([FromBody] CreateHotelDTO hotel)
         {
-            _dbContext.Hotels.Add(hotel);
+            var domainHotel = _mapper.Map<Hotel>(hotel);
+            
+            _dbContext.Hotels.Add(domainHotel);
             await _dbContext.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetHotelById), new { id = hotel.Id }, hotel);
+
+            var hotelGet = _mapper.Map<GetHotelDTO>(domainHotel);
+            return CreatedAtAction(nameof(GetHotelById), new { id = domainHotel.Id }, hotelGet);
         }
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<IActionResult> UpdateHotel([FromBody] Hotel updated, int id)
+        public async Task<IActionResult> UpdateHotel([FromBody] CreateHotelDTO updated, int id)
         {
-            var hotel = await _dbContext.Hotels.FirstOrDefaultAsync(h => h.Id == id);
+            var toUpdate = _mapper.Map<Hotel>(updated);
+            toUpdate.Id = id;
 
-            if (hotel == null)
-                return BadRequest();
-
-            hotel.Id = updated.Id;
-            hotel.Address = updated.Address;
-            hotel.Description = updated.Description;
-            hotel.Country = updated.Country;
-            hotel.City = updated.City;
-
-            _dbContext.Hotels.Update(hotel);
+            _dbContext.Hotels.Update(toUpdate);
             await _dbContext.SaveChangesAsync();
 
             return NoContent();
