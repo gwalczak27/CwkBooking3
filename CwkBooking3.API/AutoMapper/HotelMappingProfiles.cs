@@ -8,8 +8,8 @@ namespace CwkBooking3.API.AutoMapper
     {
         public HotelMappingProfiles()
         {
-            CreateMap<CreateHotelDTO, Hotel>();
-            CreateMap<Hotel, GetHotelDTO>();
+            CreateMap<HotelCreateDTO, Hotel>();
+            CreateMap<Hotel, HotelGetDTO>();
         }
     }
 }

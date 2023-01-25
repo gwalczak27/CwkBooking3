@@ -4,14 +4,16 @@ using CwkBooking3.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CwkBooking3.DAL.Migrations
 {
     [DbContext(typeof(CwkBooking3Context))]
-    partial class CwkBooking3ContextModelSnapshot : ModelSnapshot
+    [Migration("20230123225522_added navigation property to room category")]
+    partial class addednavigationpropertytoroomcategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

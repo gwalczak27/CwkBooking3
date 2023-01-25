@@ -1,6 +1,6 @@
 ﻿namespace CwkBooking3.API.DTOs
 {
-    public class CreateHotelDTO
+    public class HotelCreateDTO
     {
         public string Name { get; set; }
         public int stars { get; set; }
